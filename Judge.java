@@ -5,13 +5,11 @@ public class Judge
   //  data field
   private String name;
   private String school;
-  private ArrayList<Team> teamsInTourney;
   /**
    * TODO: Refractor to use linked lists once learned
    **/
   private ArrayList<Team> teamsJudged;
-  private Team[] teamsConflict;
-  private final int MAX_ROUNDS = 20;
+  private ArrayList<Team> teamsConflict;
   private final int MAX_DEBATE_TYPES = 5;
   private boolean[] debatePref;
   private DebateType debate;
@@ -34,8 +32,8 @@ public class Judge
   {
     this.school = school;
     this.name = name;
-    teamsJudged = new ArrayList<Team>(MAX_ROUNDS);
-    teamsConflict = new Team[MAX_ROUNDS];
+    teamsJudged = new ArrayList<Team>();
+    teamsConflict = new ArrayList<Team>();
     debatePref = new boolean[MAX_DEBATE_TYPES];    
   }
 
@@ -97,7 +95,7 @@ public class Judge
    *  return
    *    an array of teams the judge can't judge
   */
-  public Team[] getTeamsConflict()
+  public ArrayList<Team> getTeamsConflict()
   {
     return teamsConflict;
   }
@@ -185,10 +183,32 @@ public class Judge
   }
 
   //  mutators
+  /*
+   *  public void setName(String name): Class Judge
+   *  ------------------------------------------------------------
+   *    This method sets the name of the judge
+   *  ------------------------------------------------------------
+   *  param
+   *    String name: name of the judge
+   *  ------------------------------------------------------------
+   *  return
+   *    none
+  */
   public void setName(String name)
   {
     this.name = name;
   }
+  /*
+   *  public void setSchool(String school): Class Judge
+   *  ------------------------------------------------------------
+   *    This method sets the school of the judge
+   *  ------------------------------------------------------------
+   *  param
+   *    String school: school of the judge
+   *  ------------------------------------------------------------
+   *  return
+   *    none
+  */
   public void setSchool(String school)
   {
     this.school = school;
@@ -202,14 +222,16 @@ public class Judge
    *  ------------------------------------------------------------
    *  param
    *    Team team: the team that the judge has seen
+   *    ArrayList<Team> teamsInTourney: list of teams in the 
+   *      tournament
    *  ------------------------------------------------------------
    *  return
    *    none
   */ 
-  public void addTeamJudged(Team team)
+  public void addTeamJudged(Team team, ArrayList<Team> teamsInTourney)
   {
-    // Check if team exists,
-    if (isValidTeam(team))
+    // Check if team exists in the tournament
+    if (team.existsInTournament(teamsInTourney))
     {
       // If team exists, adds team judged to list
       teamsJudged.add(team);
@@ -220,28 +242,31 @@ public class Judge
       throw new IllegalStateException("Team could not be added!");
     }
   }
-
-  public boolean isValidTeam(Team team)
+  /*
+   *  public void addTeamConflict: Class Judge
+   *  ------------------------------------------------------------
+   *    This method adds a team to the array of teams the judge
+   *      has a conflict with. If a team is not added, it throws 
+   *      an exception.
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team that the judge has a conflict with
+   *    ArrayList<Team> teamsInTourney: list of teams in the
+   *      tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    none
+  */  
+  public void addTeamConflict(Team team, ArrayList<Team> teamsInTourney)
   {
-    return teamsInTouney.contains(team);
-  }
-  
-  public void addTeamConflict(Team team)
-  {
-    boolean failedToAddTeam = true;
-    //  add the team to an empty slot
-    for(int i = 0; i < teamsConflict.length; ++i)
+    //  check if team exists in the tournament
+    if (team.existsInTournament(teamsInTourney))
     {
-      if(teamsConflict[i] == null)
-      {
-        teamsConflict[i] = team;
-        failedToAddTeam = false;
-        i = teamsConflict.length;
-      }
+      //  add the team the judge has a conflict with to the list
+      teamsConflict.add(team);
     }
-
-    //  yell at user if team not added successfully
-    if(failedToAddTeam)
+    //  if the team does not exist, throw an exception
+    else
     {
       throw new IllegalStateException("Team could not be added!");
     }
@@ -252,26 +277,29 @@ public class Judge
   }
 
   //  helpers
-  public boolean hasJudged(Team team1)
+  public boolean hasJudged(Team team, ArrayList<Team> teamsInTourney)
   {
-    //  yell at user for giving an empty team object
-    if(team1 == null)
+    //  check if the team exists
+    if (team.existsInTournament(teamsInTourney))
+    {
+      //  find out if the judge has judged that team
+      boolean teamFound = false;
+      int i = 0;
+      while(!teamFound && i < teamsJudged.size())
+      {
+        if(teamsJudged.get(i) == team)
+        {
+          teamFound = true;
+        }
+        ++i;
+      }
+      return teamFound;
+    }
+    //  if the team does not exist, throw an exception
+    else
     {
       throw new IllegalArgumentException("Team being checked does not exist.");
     }
-
-    //  find the team passed through
-    boolean teamFound = false;
-    int i = 0;
-    while(!teamFound && i < teamsJudged.size())
-    {
-      if(teamsJudged.get(i) == team1)
-      {
-        teamFound = true;
-      }
-      ++i;
-    }
-    return teamFound;
   }
   public boolean hasJudged(Team team1, Team team2)
   {
@@ -288,9 +316,9 @@ public class Judge
     //  find the team passed through
     boolean teamFound = false;
     int i = 0;
-    while(!teamFound && i < teamsConflict.length)
+    while(!teamFound && i < teamsConflict.size())
     {
-      if(teamsConflict[i] == team1)
+      if(teamsConflict.get(i) == team1)
       {
         teamFound = true;
       }

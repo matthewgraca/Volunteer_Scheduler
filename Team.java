@@ -38,6 +38,7 @@
 //      returns a string representation of the Team class
 //
 //    HELPERS:
+import java.util.ArrayList;
 public class Team
 {
   //  data field
@@ -100,6 +101,10 @@ public class Team
     this.name2 = name2;
   }
 
+  public boolean existsInTournament(ArrayList<Team> teamsInTourney)
+  {
+    return teamsInTourney.contains(this);
+  }
   //  toString
   @Override
   public String toString()

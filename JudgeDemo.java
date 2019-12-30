@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public class JudgeDemo
 {
   public static void main(String[] args)
@@ -14,5 +15,6 @@ public class JudgeDemo
     {
       System.out.println("Prefers LD");
     }
+
   }
 }
