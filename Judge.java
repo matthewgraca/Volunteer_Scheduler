@@ -1,9 +1,15 @@
+import java.util.ArrayList;
+
 public class Judge
 {
   //  data field
   private String name;
   private String school;
-  private Team[] teamsJudged;
+  private ArrayList<Team> teamsInTourney;
+  /**
+   * TODO: Refractor to use linked lists once learned
+   **/
+  private ArrayList<Team> teamsJudged;
   private Team[] teamsConflict;
   private final int MAX_ROUNDS = 20;
   private final int MAX_DEBATE_TYPES = 5;
@@ -28,7 +34,7 @@ public class Judge
   {
     this.school = school;
     this.name = name;
-    teamsJudged = new Team[MAX_ROUNDS];
+    teamsJudged = new ArrayList<Team>(MAX_ROUNDS);
     teamsConflict = new Team[MAX_ROUNDS];
     debatePref = new boolean[MAX_DEBATE_TYPES];    
   }
@@ -75,7 +81,7 @@ public class Judge
    *  return
    *    an array of Teams the judge has seen
   */
-  public Team[] getTeamsJudged()
+  public ArrayList<Team> getTeamsJudged()
   {
     return teamsJudged;
   }
@@ -187,26 +193,39 @@ public class Judge
   {
     this.school = school;
   }
+  /*
+   *  public void addTeamJudged: Class Judge
+   *  ------------------------------------------------------------
+   *    This method adds a team to the array of teams the judge
+   *      has seen. If a team is not added, it throws an
+   *      exception.
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team that the judge has seen
+   *  ------------------------------------------------------------
+   *  return
+   *    none
+  */ 
   public void addTeamJudged(Team team)
   {
-    boolean failedToAddTeam = true;
-    //  add the team to an empty slot
-    for(int i = 0; i < teamsJudged.length; ++i)
+    // Check if team exists,
+    if (isValidTeam(team))
     {
-      if(teamsJudged[i] == null)
-      {
-        teamsJudged[i] = team;
-        failedToAddTeam = false;
-        i = teamsJudged.length;
-      }
+      // If team exists, adds team judged to list
+      teamsJudged.add(team);
     }
-
-    //  yell at user if team not added successfully
-    if(failedToAddTeam)
+    // If team does not exist, throw an exception 
+    else
     {
       throw new IllegalStateException("Team could not be added!");
     }
   }
+
+  public boolean isValidTeam(Team team)
+  {
+    return teamsInTouney.contains(team);
+  }
+  
   public void addTeamConflict(Team team)
   {
     boolean failedToAddTeam = true;
@@ -244,9 +263,9 @@ public class Judge
     //  find the team passed through
     boolean teamFound = false;
     int i = 0;
-    while(!teamFound && i < teamsJudged.length)
+    while(!teamFound && i < teamsJudged.size())
     {
-      if(teamsJudged[i] == team1)
+      if(teamsJudged.get(i) == team1)
       {
         teamFound = true;
       }
