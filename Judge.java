@@ -283,17 +283,7 @@ public class Judge
     if (team.existsInTournament(teamsInTourney))
     {
       //  find out if the judge has judged that team
-      boolean teamFound = false;
-      int i = 0;
-      while(!teamFound && i < teamsJudged.size())
-      {
-        if(teamsJudged.get(i) == team)
-        {
-          teamFound = true;
-        }
-        ++i;
-      }
-      return teamFound;
+      return teamsJudged.contains(team);
     }
     //  if the team does not exist, throw an exception
     else
@@ -301,9 +291,9 @@ public class Judge
       throw new IllegalArgumentException("Team being checked does not exist.");
     }
   }
-  public boolean hasJudged(Team team1, Team team2)
+  public boolean hasJudged(Team team1, Team team2, ArrayList<Team> teamsInTourney)
   {
-    return hasJudged(team1) || hasJudged(team2);
+    return hasJudged(team1, teamsInTourney) || hasJudged(team2, teamsInTourney);
   }
   public boolean hasConflict(Team team1)
   {
