@@ -214,7 +214,8 @@ public class Judge
     this.school = school;
   }
   /*
-   *  public void addTeamJudged: Class Judge
+   *  public void addTeamJudged(Team team, 
+   *    ArrayList<team> teamsInTourney): Class Judge
    *  ------------------------------------------------------------
    *    This method adds a team to the array of teams the judge
    *      has seen. If a team is not added, it throws an
@@ -228,7 +229,8 @@ public class Judge
    *  return
    *    none
   */ 
-  public void addTeamJudged(Team team, ArrayList<Team> teamsInTourney)
+  public void addTeamJudged(Team team,
+      ArrayList<Team> teamsInTourney)
   {
     // Check if team exists in the tournament
     if (team.existsInTournament(teamsInTourney))
@@ -243,7 +245,8 @@ public class Judge
     }
   }
   /*
-   *  public void addTeamConflict: Class Judge
+   *  public void addTeamConflict(Team team, 
+   *    ArrayList<Team> teamsInTourney): Class Judge
    *  ------------------------------------------------------------
    *    This method adds a team to the array of teams the judge
    *      has a conflict with. If a team is not added, it throws 
@@ -257,7 +260,8 @@ public class Judge
    *  return
    *    none
   */  
-  public void addTeamConflict(Team team, ArrayList<Team> teamsInTourney)
+  public void addTeamConflict(Team team, 
+      ArrayList<Team> teamsInTourney)
   {
     //  check if team exists in the tournament
     if (team.existsInTournament(teamsInTourney))
@@ -271,12 +275,39 @@ public class Judge
       throw new IllegalStateException("Team could not be added!");
     }
   }
+  /*
+   *  public void addPref(DebateType type): Class Judge
+   *  ------------------------------------------------------------
+   *    This method adds a judge's preference for a specific 
+   *      debate type
+   *  ------------------------------------------------------------
+   *  param
+   *    DebateType type: type of debate the judge prefers
+   *  ------------------------------------------------------------
+   *  return
+   *    none
+  */ 
   public void addPref(DebateType type)
   {
     debatePref[type.ordinal()] = true;
   }
 
   //  helpers
+  /*
+   *  public boolean hasJudged(Team team, 
+   *    ArrayList<Team> teamsInTourney: Class Judge
+   *  ------------------------------------------------------------
+   *    This method checks if a judge has judged a given team 
+   *      already
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team being checked
+   *    ArrayList<Team> teamsInTourney: all the teams in the
+   *      tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    true if this judge has seen this team, false if not
+  */ 
   public boolean hasJudged(Team team, ArrayList<Team> teamsInTourney)
   {
     //  check if the team exists
@@ -288,19 +319,50 @@ public class Judge
     //  if the team does not exist, throw an exception
     else
     {
-      throw new IllegalArgumentException("Team being checked does not exist.");
+      throw new IllegalArgumentException("Team does not exist.");
     }
   }
-  public boolean hasJudged(Team team1, Team team2, ArrayList<Team> teamsInTourney)
+  /*
+   *  public boolean hasJudged(Team team1, Team team2, 
+   *    ArrayList<Team> teamsInTourney): Class Judge
+   *  ------------------------------------------------------------
+   *    This method checks if a judge has judged one of the two 
+   *      teams in a given set of teams
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team1: the first team being checked
+   *    Team team2: the second team being checked
+   *    ArrayList<Team> teamsInTourney: all the teams in the
+   *      tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    true if the judge has seen one of the teams, false if not
+  */ 
+  public boolean hasJudged(Team team1, Team team2, 
+      ArrayList<Team> teamsInTourney)
   {
-    return hasJudged(team1, teamsInTourney) || hasJudged(team2, teamsInTourney);
+    return hasJudged(team1, teamsInTourney) || 
+      hasJudged(team2, teamsInTourney);
   }
+  /*
+   *  public boolean hasConflict(Team team): Class Judge
+   *  ------------------------------------------------------------
+   *    This method checks if a judge has a personal conflict 
+   *      with a team
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team being checked
+   *  ------------------------------------------------------------
+   *  return
+   *    true if the judge has a personal conflict with the team, 
+   *      false if otherwise
+  */ 
   public boolean hasConflict(Team team1)
   {
     //  yell at user for giving an empty team object
     if(team1 == null)
     {
-      throw new IllegalArgumentException("Team being checked does not exist.");
+      throw new IllegalArgumentException("Team does not exist.");
     }
 
     //  find the team passed through
@@ -316,6 +378,20 @@ public class Judge
     }
     return teamFound;
   }
+  /*
+   *  public boolean hasConflict(Team team1, Team team2): Class Judge
+   *  ------------------------------------------------------------
+   *    This method checks if a judge has a personal conflict 
+   *      with a set of two teams
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team1: the first team being checked
+   *    Team team2: the second team being checked
+   *  ------------------------------------------------------------
+   *  return
+   *    true if the judge has a personal conflict with one of the 
+   *    teams, false if otherwise
+  */ 
   public boolean hasConflict(Team team1, Team team2)
   {
     return hasConflict(team1) || hasConflict(team2);
