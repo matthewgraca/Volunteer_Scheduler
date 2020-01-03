@@ -357,26 +357,16 @@ public class Judge
    *    true if the judge has a personal conflict with the team, 
    *      false if otherwise
   */ 
-  public boolean hasConflict(Team team1)
+  public boolean hasConflict(Team team, ArrayList<Team> teamsInTourney)
   {
-    //  yell at user for giving an empty team object
-    if(team1 == null)
+    if (team.existsInTournament(teamsInTourney))
+    {
+      return teamsConflict.contains(team);
+    }
+    else
     {
       throw new IllegalArgumentException("Team does not exist.");
     }
-
-    //  find the team passed through
-    boolean teamFound = false;
-    int i = 0;
-    while(!teamFound && i < teamsConflict.size())
-    {
-      if(teamsConflict.get(i) == team1)
-      {
-        teamFound = true;
-      }
-      ++i;
-    }
-    return teamFound;
   }
   /*
    *  public boolean hasConflict(Team team1, Team team2): Class Judge
@@ -392,8 +382,10 @@ public class Judge
    *    true if the judge has a personal conflict with one of the 
    *    teams, false if otherwise
   */ 
-  public boolean hasConflict(Team team1, Team team2)
+  public boolean hasConflict(Team team1, Team team2, 
+      ArrayList<Team> teamsInTourney)
   {
-    return hasConflict(team1) || hasConflict(team2);
+    return hasConflict(team1, teamsInTourney) || 
+      hasConflict(team2, teamsInTourney);
   }  
 }
