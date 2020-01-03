@@ -3,14 +3,16 @@ import java.util.ArrayList;
 public class Judge
 {
   //  data field
-  private String name;
-  private String school;
+  private String name;    // name of judge
+  private String school;  // school the judge represents
   /**
    * TODO: Refractor to use linked lists once learned
    **/
-  private ArrayList<Team> teamsJudged;
+  private ArrayList<Team> teamsJudged;    // list of teams judged
+  // list of teams the judge has a personal conflict with
   private ArrayList<Team> teamsConflict;
   private final int MAX_DEBATE_TYPES = 5;
+  // array of preferences the judge has for specific debate types
   private boolean[] debatePref;
   private DebateType debate;
 
