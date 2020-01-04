@@ -390,4 +390,10 @@ public class Judge
     return hasConflict(team1, teamsInTourney) || 
       hasConflict(team2, teamsInTourney);
   }  
+  //  toString
+  @Override
+  public String toString()
+  {
+    return String.format("%s: %s", school, name);
+  }
 }
