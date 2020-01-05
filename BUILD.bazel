@@ -1,0 +1,24 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
+java_binary(
+    name = "JudgeDemo",
+    srcs = ["src/main/java/JudgeDemo.java"],
+    main_class = "JudgeDemo",
+    deps = [":team", ":judge"],
+)
+
+java_library(
+    name = "team",
+    srcs = ["src/main/java/Team.java"],
+)
+
+java_library(
+    name = "judge",
+    srcs = ["src/main/java/Judge.java"],
+    deps = [":team", ":debateType"],
+)
+
+java_library(
+  name = "debateType",
+  srcs = ["src/main/java/DebateType.java"]
+)
