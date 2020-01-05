@@ -350,7 +350,8 @@ public class Judge
    *  public boolean hasConflict(Team team): Class Judge
    *  ------------------------------------------------------------
    *    This method checks if a judge has a personal conflict 
-   *      with a team
+   *      with a team. Judges with the same school as the team 
+   *      have an automatic conflict
    *  ------------------------------------------------------------
    *  param
    *    Team team: the team being checked
@@ -363,7 +364,7 @@ public class Judge
   {
     if (team.existsInTournament(teamsInTourney))
     {
-      return teamsConflict.contains(team);
+      return teamsConflict.contains(team) || school.contains(team.getSchool());
     }
     else
     {
