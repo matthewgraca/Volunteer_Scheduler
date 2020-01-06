@@ -65,8 +65,17 @@ public class JudgeDemo
     }
     System.out.println();
 
-    //  test getValidTeamToJudge()
+    //  test getValidTeamToJudge() and addTeamConflict()
     System.out.println("Testing getValidTeamToJudge()");
     System.out.println(judgeRoster.get(0) + " can judge " + judgeRoster.get(0).getValidTeamToJudge(pofoTournamentRoster));
+    for (int i = 0; i < pofoTournamentRoster.size(); ++i)
+    {
+      judgeRoster.get(0).addTeamConflict(pofoTournamentRoster.get(i), pofoTournamentRoster);
+    }
+    System.out.println("Added the entire roster as a personal conflict.");
+    if (judgeRoster.get(0).getValidTeamToJudge(pofoTournamentRoster) == null)
+    {
+      System.out.println(judgeRoster.get(0) + " cannot judge anyone.");
+    }
   }
 }
