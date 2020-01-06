@@ -446,15 +446,19 @@ public class Judge
   {
     //  search for a valid team to judge in the list
     boolean teamFound = false;
+    Team validTeam = null;
     int i = 0;
-    while(!teamFound && i < teamsInTourney.size())
+    while (!teamFound && i < teamsInTourney.size())
     {
       if (hasConflict(teamsInTourney.get(i)) || hasJudged(teamsInTourney.get(i)))
         ++i;
       else
-        return teamsInTourney.get(i);
+      {
+        validTeam = teamsInTourney.get(i);
+        teamFound = true;
+      }
     }
-    return null;
+    return validTeam;
   }
  //  toString
   @Override
