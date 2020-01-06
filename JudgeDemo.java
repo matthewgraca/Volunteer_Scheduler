@@ -63,5 +63,10 @@ public class JudgeDemo
     {
       System.out.println(judgeRoster.get(0) + " does not have a conflict with " + pofoTournamentRoster.get(1));
     }
+    System.out.println();
+
+    //  test getValidTeamToJudge()
+    System.out.println("Testing getValidTeamToJudge()");
+    System.out.println(judgeRoster.get(0) + " can judge " + judgeRoster.get(0).getValidTeamToJudge(pofoTournamentRoster));
   }
 }
