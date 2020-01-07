@@ -325,6 +325,23 @@ public class Judge
     }
   }
   /*
+   *  private boolean hasJudged(Team team) : Class Judge
+   *  ------------------------------------------------------------
+   *    This method checks if a judge has judged a given team 
+   *      already. this is an internal version where we know 
+   *      for sure that the team is in the tournament
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team being checked
+   *  ------------------------------------------------------------
+   *  return
+   *    true if this judge has seen this team, false if not
+  */
+  private boolean hasJudged(Team team)
+  {
+    return teamsJudged.contains(team);
+  }
+  /*
    *  public boolean hasJudged(Team team1, Team team2, 
    *    ArrayList<Team> teamsInTourney): Class Judge
    *  ------------------------------------------------------------
@@ -347,10 +364,12 @@ public class Judge
       hasJudged(team2, teamsInTourney);
   }
   /*
-   *  public boolean hasConflict(Team team): Class Judge
+   *  public boolean hasConflict(Team team, 
+   *    ArrayList<Team> teamsInTourney): Class Judge
    *  ------------------------------------------------------------
    *    This method checks if a judge has a personal conflict 
-   *      with a team
+   *      with a team. Judges with the same school as the team 
+   *      have an automatic conflict
    *  ------------------------------------------------------------
    *  param
    *    Team team: the team being checked
@@ -363,12 +382,32 @@ public class Judge
   {
     if (team.existsInTournament(teamsInTourney))
     {
-      return teamsConflict.contains(team);
+      return teamsConflict.contains(team) || school.contains(team.getSchool());
     }
     else
     {
       throw new IllegalArgumentException("Team does not exist.");
     }
+  }
+  /*
+   *  public boolean hasConflict(Team team): Class Judge
+   *  ------------------------------------------------------------
+   *    This method checks if a judge has a personal conflict 
+   *      with a team. Judges with the same school as the team 
+   *      have an automatic conflict. this is an internal 
+   *      version where we know for sure that the team is a 
+   *      part of the tournament
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team being checked
+   *  ------------------------------------------------------------
+   *  return
+   *    true if the judge has a personal conflict with the team, 
+   *      false if otherwise
+  */ 
+  private boolean hasConflict(Team team)
+  {
+    return teamsConflict.contains(team) || school.contains(team.getSchool());
   }
   /*
    *  public boolean hasConflict(Team team1, Team team2): Class Judge
@@ -389,7 +428,75 @@ public class Judge
   {
     return hasConflict(team1, teamsInTourney) || 
       hasConflict(team2, teamsInTourney);
-  }  
+  } 
+  /*
+   *  public Team getValidTeamToJudge(ArrayList<Team> teamsInTourney)
+   *    : Class Judge
+   *  ------------------------------------------------------------
+   *    This method finds a valid team for the judge to watch
+   *  ------------------------------------------------------------
+   *  param
+   *    ArrayList<Team> teamsInTourney: teams in the tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    a valid team to judge. if there is no valid team, it 
+   *      returns null
+  */ 
+  public Team getValidTeamToJudge(ArrayList<Team> teamsInTourney)
+  {
+    //  search for a valid team to judge in the list
+    boolean teamFound = false;
+    Team validTeam = null;
+    int i = 0;
+    while (!teamFound && i < teamsInTourney.size())
+    {
+      //  check if there is a personal conflict or they have been judged by this judge
+      if (hasConflict(teamsInTourney.get(i)) || hasJudged(teamsInTourney.get(i)))
+      {
+        ++i;
+      }
+      else
+      {
+        //  if a valid team was found, store it as valid
+        validTeam = teamsInTourney.get(i);
+        //  check if that team comes from the same school as the teams the judge has seen
+
+        teamFound = true;
+      }
+    }
+    return validTeam;
+  }
+  /*
+   *  private boolean teamSchoolAlreadySeen(Team team): Class Judge
+   *  ------------------------------------------------------------
+   *    This method determines whether or not a judge has judged 
+   *      a team from the same school before
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team being checked
+   *  ------------------------------------------------------------
+   *  return
+   *    true if the judge has seen a team from the team's school 
+   *      before, false if not
+  */ 
+  private boolean teamSchoolAlreadySeen(Team team)
+  {
+    boolean invalidTeam = false;
+    int i = 0;
+    while (!invalidTeam && i < teamsJudged.size())
+    {
+      if (team.getSchool().contains(teamsJudged.get(i).getSchool()))
+      {
+        invalidTeam = true;
+      }
+      else
+      {
+        ++i;
+      }
+    }
+
+    return invalidTeam;
+  }
   //  toString
   @Override
   public String toString()
