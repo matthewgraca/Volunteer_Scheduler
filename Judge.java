@@ -459,9 +459,18 @@ public class Judge
       {
         //  if a valid team was found, store it as valid
         validTeam = teamsInTourney.get(i);
-        //  check if that team comes from the same school as the teams the judge has seen
 
-        teamFound = true;
+        //  check if that team comes from the same school as the teams the judge has seen
+        //  if it's seen, look for a new one; but still keep that team as valid
+        if (teamSchoolAlreadySeen(validTeam))
+        {
+          ++i;
+        }
+        //  if not, declare that a team has been found
+        else
+        {
+          teamFound = true;
+        }
       }
     }
     return validTeam;
