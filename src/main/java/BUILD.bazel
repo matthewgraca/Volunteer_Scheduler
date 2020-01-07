@@ -2,24 +2,24 @@ load("@rules_java//java:defs.bzl", "java_binary")
 
 java_binary(
     name = "JudgeDemo",
-    srcs = ["src/main/java/JudgeDemo.java"],
+    srcs = ["JudgeDemo.java"],
     main_class = "JudgeDemo",
     deps = [":team", ":judge"],
-    data = ["src/main/resources/PF_Roster.txt"],
+    data = ["data/PF_Roster.txt"],
 )
 
 java_library(
     name = "team",
-    srcs = ["src/main/java/Team.java"],
+    srcs = ["Team.java"],
 )
 
 java_library(
     name = "judge",
-    srcs = ["src/main/java/Judge.java"],
+    srcs = ["Judge.java"],
     deps = [":team", ":debateType"],
 )
 
 java_library(
   name = "debateType",
-  srcs = ["src/main/java/DebateType.java"]
+  srcs = ["DebateType.java"]
 )
