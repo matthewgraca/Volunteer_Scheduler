@@ -5,6 +5,7 @@ java_binary(
     srcs = ["src/main/java/JudgeDemo.java"],
     main_class = "JudgeDemo",
     deps = [":team", ":judge"],
+    data = ["src/main/resources/PF_Roster.txt"],
 )
 
 java_library(
