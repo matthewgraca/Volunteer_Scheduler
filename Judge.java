@@ -462,7 +462,7 @@ public class Judge
 
         //  check if that team comes from the same school as the teams the judge has seen
         //  if it's seen, look for a new one; but still keep that team as valid
-        if (teamSchoolAlreadySeen(validTeam))
+        if (schoolAlreadySeen(validTeam))
         {
           ++i;
         }
@@ -476,7 +476,7 @@ public class Judge
     return validTeam;
   }
   /*
-   *  private boolean teamSchoolAlreadySeen(Team team): Class Judge
+   *  private boolean schoolAlreadySeen(Team team): Class Judge
    *  ------------------------------------------------------------
    *    This method determines whether or not a judge has judged 
    *      a team from the same school before
@@ -488,7 +488,7 @@ public class Judge
    *    true if the judge has seen a team from the team's school 
    *      before, false if not
   */ 
-  private boolean teamSchoolAlreadySeen(Team team)
+  private boolean schoolAlreadySeen(Team team)
   {
     boolean invalidTeam = false;
     int i = 0;
