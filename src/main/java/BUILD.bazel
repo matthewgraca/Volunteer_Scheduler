@@ -1,0 +1,25 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
+java_binary(
+    name = "JudgeDemo",
+    srcs = ["JudgeDemo.java"],
+    main_class = "JudgeDemo",
+    deps = [":team", ":judge"],
+    data = ["data/PF_Roster.txt"],
+)
+
+java_library(
+    name = "team",
+    srcs = ["Team.java"],
+)
+
+java_library(
+    name = "judge",
+    srcs = ["Judge.java"],
+    deps = [":team", ":debateType"],
+)
+
+java_library(
+  name = "debateType",
+  srcs = ["DebateType.java"]
+)

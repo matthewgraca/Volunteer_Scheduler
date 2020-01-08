@@ -1,0 +1,21 @@
+Installing bazel on Ubuntu:
+  https://docs.bazel.build/versions/2.0.0/install-ubuntu.html
+
+Your project files are in src/main/java/**
+
+To build project:
+  bazel build ...
+
+To run project:
+  bazel run //src/main/java:JudgeDemo
+    OR
+  I have also included a build script to make it quicker to run. It's literally
+  just the above command. In order to run it, you need to give it permission
+  with `chmod 777 run.sh`. Then whenever you make an edit to your code and want
+  to run it, just type `./run.sh`
+
+  Let me know if you have any questions. I am aware I mixed up your file 
+  structure.
+
+To test project (in future, to be implemented):
+  bazel test ...

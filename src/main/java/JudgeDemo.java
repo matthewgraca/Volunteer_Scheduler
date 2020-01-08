@@ -25,7 +25,7 @@ public class JudgeDemo
 
     //  filling the tournament roster
     System.out.println("Grabbing the PF tournament roster from a file, stuffing it into an array list, and outputting it.");
-    File myFile = new File("PF_Roster.txt");
+    File myFile = new File("src/main/java/data/PF_Roster.txt");
     Scanner inputFile = new Scanner(myFile);
     while (inputFile.hasNext())
     {
