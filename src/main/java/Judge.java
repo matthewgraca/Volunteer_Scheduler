@@ -9,6 +9,7 @@ public class Judge
    * TODO: Refractor to use linked lists once learned
    **/
   private ArrayList<Team> teamsJudged;    // list of teams judged
+  private ArrayList<Round> roundsJudged;
   // list of teams the judge has a personal conflict with
   private ArrayList<Team> teamsConflict;
   private final int MAX_DEBATE_TYPES = 5;
@@ -278,6 +279,35 @@ public class Judge
     }
   }
   /*
+   *  public void addRoundJudged(Round round, 
+   *    ArrayList<Team> teamsInTourney): Class Judge
+   *  ------------------------------------------------------------
+   *    This method adds a round to the array of rounds the judge 
+   *      has judged
+   *  ------------------------------------------------------------
+   *  param
+   *    Round round: the round the judge has seen
+   *    ArrayList<Team> teamsInTourney: list of teams in the
+   *      tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    none
+  */
+  public void addRoundJudged(Round round, ArrayList<Team> teamsInTourney)
+  {
+    if (round.getFirstTeam().existsInTournament(teamsInTourney) &&
+        round.getSecondTeam().existsInTournament(teamsInTourney))
+    {
+      roundsJudged.add(round);
+      teamsJudged.add(round.getFirstTeam());
+      teamsJudged.add(round.getSecondTeam());
+    }
+    else
+    {
+      throw new IllegalStateException("Round could not be added!");
+    }
+  }
+  /*
    *  public void addPref(DebateType type): Class Judge
    *  ------------------------------------------------------------
    *    This method adds a judge's preference for a specific 
@@ -503,9 +533,32 @@ public class Judge
         ++i;
       }
     }
-
     return invalidTeam;
   }
+  /*
+   *  public Team getValidTeamForDeficitJudge(ArrayList<Team> 
+   *    teamsInTourney): Class Judge
+   *  ------------------------------------------------------------
+   *    In the case where you have a deficit of judges, this 
+   *      method will find an adequate team to judge
+   *  ------------------------------------------------------------
+   *  param
+   *    ArrayList<Team> teamsInTourney: teams in the tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    a valid team to judge. if there is no valid team, it 
+   *      returns null
+  */ 
+  /*public Team getValidTeamForDeficitJudge()
+  {
+    //  the judge cannot judge the same team AND side
+    boolean teamFound = false;
+    int i = 0;
+    while(!teamFound && i < teamsJudged.size())
+    {
+      if (
+    }
+  }*/
   //  toString
   @Override
   public String toString()
