@@ -199,7 +199,40 @@ public class Team
   {
     return teamsInTourney.contains(this);
   }
+  /*
+   *  public boolean equals(Team team): Class Team
+   *  ------------------------------------------------------------
+   *    This function checks if one team is the same as another
+   *  ------------------------------------------------------------
+   *  param
+   *    Team team: the team being checked
+   *  ------------------------------------------------------------
+   *  return
+   *    true if they're the same, false if not
+  */
+  public boolean equals(Team team)
+  {
+    boolean sameNames = false;
+    boolean sameSchool = false;
+    boolean sameEvent = false;
 
+    //  check names
+    if (getNames().equals(team.getNames()))
+    {
+      sameNames = true;
+    }
+    //  check schools
+    if (getSchool().equals(team.getSchool()))
+    {
+      sameSchool = true;
+    }
+    //  check events
+    if (getEvent().equals(team.getEvent()))
+    {
+      sameEvent = true;
+    }
+    return sameNames && sameSchool && sameEvent;
+  }
   //  toString
   @Override
   public String toString()
