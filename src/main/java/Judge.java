@@ -460,6 +460,36 @@ public class Judge
       hasConflict(team2, teamsInTourney);
   } 
   /*
+   *  public boolean canJudge(Round round, 
+   *    ArrayList<Team> teamsInTourney): Class Judge
+   *  ------------------------------------------------------------
+   *    This method determines if the judge can watch a round
+   *  ------------------------------------------------------------
+   *  param
+   *    Round round: the round the judge is watching
+   *    ArrayList<Team> teamsInTourney: teams in the tournament
+   *  ------------------------------------------------------------
+   *  return
+   *    true if the judge can judge the round, false if not
+  */ 
+  public boolean canJudge(Round round, ArrayList<Team> teamsInTourney)
+  {
+    boolean validTeam;
+    Team firstTeam = round.getFirstTeam();
+    Team secondTeam = round.getSecondTeam();
+
+    //  check if the judge has a conflict or has judged any of the teams in the round
+    if (hasJudged(firstTeam, secondTeam, teamsInTourney) || hasConflict(firstTeam, secondTeam, teamsInTourney))
+    {
+      validTeam = false;
+    }
+    else
+    {
+      validTeam = true;
+    }
+    return validTeam;
+  }
+  /*
    *  public Team getValidTeamToJudge(ArrayList<Team> teamsInTourney)
    *    : Class Judge
    *  ------------------------------------------------------------
@@ -536,29 +566,19 @@ public class Judge
     return invalidTeam;
   }
   /*
-   *  public Team getValidTeamForDeficitJudge(ArrayList<Team> 
+   *  public boolean canDeficitJudge(Round round, ArrayList<Team> 
    *    teamsInTourney): Class Judge
    *  ------------------------------------------------------------
    *    In the case where you have a deficit of judges, this 
-   *      method will find an adequate team to judge
+   *      method will check if the judge can watch a round
    *  ------------------------------------------------------------
    *  param
+   *    Round round: the round the judge is being tested for
    *    ArrayList<Team> teamsInTourney: teams in the tournament
    *  ------------------------------------------------------------
    *  return
-   *    a valid team to judge. if there is no valid team, it 
-   *      returns null
+   *    true if the judge can judge the round, false if they can't
   */ 
-  /*public Team getValidTeamForDeficitJudge()
-  {
-    //  the judge cannot judge the same team AND side
-    boolean teamFound = false;
-    int i = 0;
-    while(!teamFound && i < teamsJudged.size())
-    {
-      if (
-    }
-  }*/
   //  toString
   @Override
   public String toString()
