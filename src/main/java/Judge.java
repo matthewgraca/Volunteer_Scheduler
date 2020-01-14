@@ -579,6 +579,52 @@ public class Judge
    *  return
    *    true if the judge can judge the round, false if they can't
   */ 
+  public boolean canDeficitJudge(Round round, ArrayList<Team> teamsInTourney)
+  {
+    boolean validRound = true;
+    Team firstTeam = round.getFirstTeam();
+    Team secondTeam = round.getSecondTeam();
+
+    //  check if they can normall judge the round
+    if (canJudge(round, teamsInTourney))
+    {
+      validRound = true;
+    }
+    //  check if there is any personal conflict
+    else if (hasConflict(firstTeam, secondTeam, teamsInTourney))
+    {
+      validRound = false;
+    }
+    //  check the round they judged the same teams in
+    else
+    {
+      int i = 0;
+      while (validRound && i < roundsJudged.size())
+      {
+        //  find first team
+        if (roundsJudged.get(i).getFirstTeam().equals(firstTeam)) 
+        {
+          //  if the first team's side is the same, the round is invalid
+          if (roundsJudged.get(i).getSideOfFirstTeam().equals(round.getSideOfFirstTeam()))
+          {
+            validRound = false;
+          }
+        }
+        
+        //  find the second team
+        if (roundsJudged.get(i).getSecondTeam().equals(secondTeam))
+        {
+          //  if the second team's side is the same, the round is invalid
+          if (roundsJudged.get(i).getSideOfSecondTeam().equals(round.getSideOfSecondTeam()))
+          {
+            validRound = false;;
+          }
+        }
+        ++i;
+      }
+    }
+    return validRound;
+  }
   //  toString
   @Override
   public String toString()
