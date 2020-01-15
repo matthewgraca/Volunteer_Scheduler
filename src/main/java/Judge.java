@@ -295,9 +295,11 @@ public class Judge
   */
   public void addRoundJudged(Round round, ArrayList<Team> teamsInTourney)
   {
+    //  check if the teams exist
     if (round.getFirstTeam().existsInTournament(teamsInTourney) &&
         round.getSecondTeam().existsInTournament(teamsInTourney))
     {
+      //  add the rounds and the teams
       roundsJudged.add(round);
       teamsJudged.add(round.getFirstTeam());
       teamsJudged.add(round.getSecondTeam());
@@ -474,12 +476,15 @@ public class Judge
   */ 
   public boolean canJudge(Round round, ArrayList<Team> teamsInTourney)
   {
+    //  trying out something; attaching cumbersome functions with more digestible names; but the function name should be standalone??
     boolean validTeam;
     Team firstTeam = round.getFirstTeam();
     Team secondTeam = round.getSecondTeam();
+    boolean hasJudgedTheseTeams = hasJudged(firstTeam, secondTeam, teamsInTourney);
+    boolean hasConflictWithTheseTeams = hasConflict(firstTeam, secondTeam, teamsInTourney);
 
     //  check if the judge has a conflict or has judged any of the teams in the round
-    if (hasJudged(firstTeam, secondTeam, teamsInTourney) || hasConflict(firstTeam, secondTeam, teamsInTourney))
+    if (hasJudgedTheseTeams || hasConflictWithTheseTeams)
     {
       validTeam = false;
     }
